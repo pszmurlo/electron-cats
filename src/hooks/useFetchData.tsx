@@ -17,29 +17,31 @@ const useFetchData = ({
   data: CatFact | null;
   isLoading: boolean;
   error: AxiosError | null;
+  fetchNewFact: () => void;
 } => {
   const [data, setData] = useState<CatFact | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<AxiosError | null>(null);
 
+  const fetchData = async () => {
+    setIsLoading(true);
+    setData(null);
+
+    try {
+      const response = await axiosInstance.get(url, { params: queryParams });
+      setData(response.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      try {
-        const response = await axiosInstance.get(url, { params: queryParams });
-        setData(response.data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
-  }, [url]);
+  }, []);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, fetchNewFact: fetchData };
 };
 
 export default useFetchData;

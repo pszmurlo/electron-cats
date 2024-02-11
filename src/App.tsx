@@ -1,23 +1,66 @@
-import React from "react";
+import { Box, Tab, Tabs } from "@mui/material";
+import { useEffect, useState } from "react";
+import DailyFact from "./components/daily-fact/DailyFact";
+import FavoritesTab from "./components/favorites-tab/FavoritesTab";
 import useFetchData from "./hooks/useFetchData";
 
 const App = () => {
-  const { data, isLoading, error } = useFetchData({
+  const [currentFact, setCurrentFact] = useState(null);
+  const [favoriteFacts, setFavoriteFacts] = useState([]);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const { data, isLoading, error, fetchNewFact } = useFetchData({
     url: "/facts/random",
     queryParams: { amount: 1, animal_type: "cat" },
   });
 
-  if (isLoading) return <div>Loading cat facts...</div>;
+  useEffect(() => {
+    if (data) {
+      setCurrentFact(data);
+    }
+  }, [data]);
+
+  const handleAddToFavorites = () => {
+    setFavoriteFacts([...favoriteFacts, currentFact]);
+    setCurrentFact(null);
+    fetchNewFact();
+  };
+
+  const handleDeleteFact = () => {
+    setCurrentFact(null);
+    fetchNewFact();
+  };
+
+  const handleChangeTab = (_event: React.SyntheticEvent, newTab: number) => {
+    setActiveTab(newTab);
+  };
+
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-      <ul>
-        {data && Array.isArray(data)
-          ? data.map((fact) => <li key={fact._id}>{fact.text}</li>)
-          : data && <li>{data.text}</li>}
-      </ul>
-    </div>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{ flexGrow: 1, display: "flex", flexDirection: "column", mb: 2 }}
+      >
+        <Tabs
+          value={activeTab}
+          onChange={handleChangeTab}
+          aria-label="Daily Fact or Favorites"
+        >
+          <Tab label="Daily Fact" />
+          <Tab label="Favorites" />
+        </Tabs>
+      </Box>
+      {activeTab === 0 && (
+        <DailyFact
+          fact={currentFact}
+          onAddToFavorites={handleAddToFavorites}
+          onDelete={handleDeleteFact}
+          isLoading={isLoading}
+        />
+      )}
+      {activeTab === 1 && <FavoritesTab facts={favoriteFacts} />}
+    </Box>
   );
 };
 
