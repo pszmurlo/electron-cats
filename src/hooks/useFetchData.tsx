@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { axiosInstance, AxiosError } from "../services/apiService";
+import { useEffect, useState } from "react";
+import { AxiosError, axiosInstance } from "../services/apiService";
 import { CatFact } from "../types/apiTypes";
 
 interface UseFetchDataProps {

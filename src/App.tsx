@@ -15,18 +15,6 @@ const App = () => {
     queryParams: { amount: 1, animal_type: "cat" },
   });
 
-  useEffect(() => {
-    if (data) {
-      setCurrentFact(data);
-    }
-  }, [data]);
-
-  window.electronAPI.fetchCatFact(() => {
-    if (currentFact) {
-      window.electronAPI.catFact(currentFact?.text);
-    }
-  });
-
   const handleAddToFavorites = () => {
     setFavoriteFacts([...favoriteFacts, currentFact]);
     setCurrentFact(null);
@@ -41,6 +29,18 @@ const App = () => {
   const handleChangeTab = (_event: React.SyntheticEvent, newTab: number) => {
     setActiveTab(newTab);
   };
+
+  useEffect(() => {
+    if (data) {
+      setCurrentFact(data);
+    }
+  }, [data]);
+
+  window.electronAPI.fetchCatFact(() => {
+    if (currentFact) {
+      window.electronAPI.catFact(currentFact?.text);
+    }
+  });
 
   if (error) return <div>Error: {error.message}</div>;
 

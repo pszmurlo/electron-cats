@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { CatFact } from "../../types/apiTypes";
 
 interface DailyFactProps {

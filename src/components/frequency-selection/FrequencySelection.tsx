@@ -12,13 +12,13 @@ import { useState } from "react";
 
 interface FrequencyOption {
   label: string;
-  value: string; // Cron expression or milliseconds
+  value: string;
 }
 
 const frequencyOptions: FrequencyOption[] = [
-  { label: "10 Seconds", value: "*/10 * * * * *" }, // Cron expression for every 10 seconds
-  { label: "1 Minute", value: "* * * * *" }, // Cron expression for every minute
-  { label: "2 Hours", value: "0 */2 * * *" }, // Cron expression for every 2 hours
+  { label: "10 Seconds", value: "*/10 * * * * *" }, // node-cron expression for every 10 seconds
+  { label: "1 Minute", value: "* * * * *" }, // node-cron expression for every minute
+  { label: "2 Hours", value: "0 */2 * * *" }, // node-cron expression for every 2 hours
 ];
 
 const FrequencySelection = () => {
