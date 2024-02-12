@@ -17,7 +17,7 @@ const useFetchData = ({
   data: CatFact | null;
   isLoading: boolean;
   error: AxiosError | null;
-  fetchNewFact: () => void;
+  fetchNewFact: () => Promise<void>;
 } => {
   const [data, setData] = useState<CatFact | null>(null);
   const [isLoading, setIsLoading] = useState(false);

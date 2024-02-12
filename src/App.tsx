@@ -2,6 +2,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { useEffect, useState } from "react";
 import DailyFact from "./components/daily-fact/DailyFact";
 import FavoritesTab from "./components/favorites-tab/FavoritesTab";
+import FrequencySelection from "./components/frequency-selection/FrequencySelection";
 import useFetchData from "./hooks/useFetchData";
 
 const App = () => {
@@ -19,6 +20,12 @@ const App = () => {
       setCurrentFact(data);
     }
   }, [data]);
+
+  (window as any).electronAPI.fetchCatFact(() => {
+    if (currentFact) {
+      (window as any).electronAPI.catFact(currentFact?.text);
+    }
+  });
 
   const handleAddToFavorites = () => {
     setFavoriteFacts([...favoriteFacts, currentFact]);
@@ -52,12 +59,15 @@ const App = () => {
         </Tabs>
       </Box>
       {activeTab === 0 && (
-        <DailyFact
-          fact={currentFact}
-          onAddToFavorites={handleAddToFavorites}
-          onDelete={handleDeleteFact}
-          isLoading={isLoading}
-        />
+        <>
+          <DailyFact
+            fact={currentFact}
+            onAddToFavorites={handleAddToFavorites}
+            onDelete={handleDeleteFact}
+            isLoading={isLoading}
+          />
+          <FrequencySelection />
+        </>
       )}
       {activeTab === 1 && <FavoritesTab facts={favoriteFacts} />}
     </Box>
