@@ -44,7 +44,9 @@ const DailyFact = ({
           <div
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}
+            role="region"
             style={{ width: "100%" }}
+            data-testid="fact-card"
           >
             <Card>
               <CardHeader title="Amazing Cat Fact" />

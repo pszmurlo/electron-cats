@@ -21,9 +21,9 @@ const App = () => {
     }
   }, [data]);
 
-  (window as any).electronAPI.fetchCatFact(() => {
+  window.electronAPI.fetchCatFact(() => {
     if (currentFact) {
-      (window as any).electronAPI.catFact(currentFact?.text);
+      window.electronAPI.catFact(currentFact?.text);
     }
   });
 

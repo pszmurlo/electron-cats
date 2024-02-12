@@ -31,7 +31,7 @@ const FrequencySelection = () => {
 
   const handleSetNotificationFrequency = () => {
     if (selectedFrequency) {
-      (window as any).electronAPI.notificationFrequency(selectedFrequency);
+      window.electronAPI.notificationFrequency(selectedFrequency);
       setSnackbarOpen(true);
     }
   };
@@ -46,11 +46,7 @@ const FrequencySelection = () => {
     >
       <h3>Get notification about cat facts</h3>
       <FormControl sx={{ m: 2 }}>
-        <Select
-          labelId="frequency-label"
-          value={selectedFrequency}
-          onChange={handleFrequencyChange}
-        >
+        <Select value={selectedFrequency} onChange={handleFrequencyChange}>
           {frequencyOptions.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
