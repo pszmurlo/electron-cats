@@ -9,6 +9,7 @@ The ElectronJS application showcasing fun cat facts. This simple app fetches ran
 - **ElectronJS**: Cross-platform desktop application framework.
 - **Electron Forge**: Boilerplate and tooling for Electron applications.
 - **React**: Frontend UI library.
+- **Material UI**: React components library.
 - **TypeScript**: Static typing for JavaScript.
 - **Webpack**: Module bundler.
 - **Axios**: HTTP client for fetching data.
