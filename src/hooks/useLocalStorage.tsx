@@ -17,7 +17,9 @@ const useLocalStorage = (): UseLocalStorageReturnType => {
   });
 
   const saveFavorite = (fact: FavoriteCatFact) => {
-    setFavorites((prevFavorites) => [...prevFavorites, fact]);
+    if (!favorites.some((favorite) => favorite.id === fact.id)) {
+      setFavorites((prevFavorites) => [...prevFavorites, fact]);
+    }
   };
 
   useEffect(() => {
