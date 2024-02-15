@@ -1,25 +1,42 @@
-import { Box, List, ListItem, Typography } from "@mui/material";
+import {
+  Box,
+  BoxProps,
+  List,
+  ListItem,
+  ListItemProps,
+  Typography,
+  styled,
+} from "@mui/material";
 import { CatFact } from "../../types/apiTypes";
 
 interface FavoritesTabProps {
   facts: CatFact[];
 }
 
+const Container = styled(Box)<BoxProps>(() => ({
+  padding: 16,
+}));
+
+const ListItemStyled = styled(ListItem)<ListItemProps>(() => ({
+  paddingLeft: 0,
+  paddingRight: 0,
+}));
+
 const FavoritesTab = ({ facts }: FavoritesTabProps) => {
   return (
-    <Box sx={{ p: 2 }}>
+    <Container>
       {facts.length === 0 ? (
         <Typography variant="h5">No favorites yet!</Typography>
       ) : (
         <List>
           {facts.map((fact) => (
-            <ListItem key={fact._id} sx={{ paddingX: 0 }}>
+            <ListItemStyled key={fact._id}>
               <Typography variant="h6">{fact.text}</Typography>
-            </ListItem>
+            </ListItemStyled>
           ))}
         </List>
       )}
-    </Box>
+    </Container>
   );
 };
 

@@ -1,9 +1,21 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, BoxProps, Tab, Tabs, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import DailyFact from "./components/daily-fact/DailyFact";
 import FavoritesTab from "./components/favorites-tab/FavoritesTab";
 import FrequencySelection from "./components/frequency-selection/FrequencySelection";
 import useFetchData from "./hooks/useFetchData";
+
+const Container = styled(Box)<BoxProps>(() => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+const TabsWrapper = styled(Box)<BoxProps>(() => ({
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
+  marginBottom: 16,
+}));
 
 const App = () => {
   const [currentFact, setCurrentFact] = useState(null);
@@ -45,10 +57,8 @@ const App = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
-      <Box
-        sx={{ flexGrow: 1, display: "flex", flexDirection: "column", mb: 2 }}
-      >
+    <Container>
+      <TabsWrapper>
         <Tabs
           value={activeTab}
           onChange={handleChangeTab}
@@ -57,7 +67,7 @@ const App = () => {
           <Tab label="Daily Fact" />
           <Tab label="Favorites" />
         </Tabs>
-      </Box>
+      </TabsWrapper>
       {activeTab === 0 && (
         <>
           <DailyFact
@@ -70,7 +80,7 @@ const App = () => {
         </>
       )}
       {activeTab === 1 && <FavoritesTab facts={favoriteFacts} />}
-    </Box>
+    </Container>
   );
 };
 

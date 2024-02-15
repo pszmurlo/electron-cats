@@ -1,8 +1,8 @@
 {
-  "name": "my-new-app",
-  "productName": "my-new-app",
+  "name": "daily-cat-facts-electron",
+  "productName": "daily-cat-facts-electron",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Daily Cat Facts - Electron app",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",

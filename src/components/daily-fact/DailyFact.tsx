@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Button,
   Card,
   CardContent,
@@ -8,6 +9,7 @@ import {
   Collapse,
   Stack,
   Typography,
+  styled,
 } from "@mui/material";
 import { useState } from "react";
 import { CatFact } from "../../types/apiTypes";
@@ -18,6 +20,12 @@ interface DailyFactProps {
   onAddToFavorites: (event: React.SyntheticEvent) => void;
   onDelete: (event: React.SyntheticEvent) => void;
 }
+
+const Container = styled(Box)<BoxProps>(() => ({
+  display: "flex",
+  justifyContent: "center",
+  padding: 16,
+}));
 
 const DailyFact = ({
   fact,
@@ -36,7 +44,7 @@ const DailyFact = ({
   };
 
   return (
-    <Box sx={{ p: 2 }} display="flex" justifyContent="center">
+    <Container>
       {isLoading ? (
         <CircularProgress />
       ) : (
@@ -67,7 +75,7 @@ const DailyFact = ({
           </div>
         )
       )}
-    </Box>
+    </Container>
   );
 };
 

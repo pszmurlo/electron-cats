@@ -2,11 +2,13 @@ import {
   Alert,
   Button,
   FormControl,
+  FormControlProps,
   FormHelperText,
   MenuItem,
   Select,
   SelectChangeEvent,
   Snackbar,
+  styled,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -20,6 +22,10 @@ const frequencyOptions: FrequencyOption[] = [
   { label: "1 Minute", value: "* * * * *" }, // node-cron expression for every minute
   { label: "2 Hours", value: "0 */2 * * *" }, // node-cron expression for every 2 hours
 ];
+
+const FormControlStyled = styled(FormControl)<FormControlProps>(() => ({
+  margin: 16,
+}));
 
 const FrequencySelection = () => {
   const [selectedFrequency, setSelectedFrequency] = useState("* * * * *");
@@ -45,7 +51,7 @@ const FrequencySelection = () => {
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <h3>Get notification about cat facts</h3>
-      <FormControl sx={{ m: 2 }}>
+      <FormControlStyled>
         <Select value={selectedFrequency} onChange={handleFrequencyChange}>
           {frequencyOptions.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -54,7 +60,7 @@ const FrequencySelection = () => {
           ))}
         </Select>
         <FormHelperText>Choose frequency</FormHelperText>
-      </FormControl>
+      </FormControlStyled>
       <Button variant="contained" onClick={handleSetNotificationFrequency}>
         Set Frequency
       </Button>
