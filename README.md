@@ -36,6 +36,8 @@ cd desktop-cats
 npm install
 ```
 
+#### Create a `.env` file and fill it with environment variables based on the [`template.env`](template.env)
+
 #### (Optional) Start the development server:
 
 ```Bash
