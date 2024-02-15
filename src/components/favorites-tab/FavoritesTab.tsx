@@ -7,10 +7,10 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { CatFact } from "../../types/apiTypes";
+import { FavoriteCatFact } from "../../hooks/useLocalStorage";
 
 interface FavoritesTabProps {
-  facts: CatFact[];
+  facts: FavoriteCatFact[];
 }
 
 const Container = styled(Box)<BoxProps>(() => ({
@@ -30,7 +30,7 @@ const FavoritesTab = ({ facts }: FavoritesTabProps) => {
       ) : (
         <List>
           {facts.map((fact) => (
-            <ListItemStyled key={fact._id}>
+            <ListItemStyled key={fact.id}>
               <Typography variant="h6">{fact.text}</Typography>
             </ListItemStyled>
           ))}

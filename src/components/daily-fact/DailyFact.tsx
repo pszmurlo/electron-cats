@@ -52,9 +52,10 @@ const DailyFact = ({
           <div
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}
-            role="region"
+            aria-label="Amazing Cat Fact"
             style={{ width: "100%" }}
             data-testid="fact-card"
+            aria-hidden
           >
             <Card>
               <CardHeader title="Amazing Cat Fact" />

@@ -10,15 +10,17 @@ interface UseFetchDataProps {
   };
 }
 
-const useFetchData = ({
-  url,
-  queryParams = {},
-}: UseFetchDataProps): {
+type UseFetchDataReturnedType = {
   data: CatFact | null;
   isLoading: boolean;
   error: AxiosError | null;
   fetchNewFact: () => Promise<void>;
-} => {
+};
+
+const useFetchData = ({
+  url,
+  queryParams = {},
+}: UseFetchDataProps): UseFetchDataReturnedType => {
   const [data, setData] = useState<CatFact | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<AxiosError | null>(null);

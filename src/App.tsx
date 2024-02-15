@@ -4,6 +4,8 @@ import DailyFact from "./components/daily-fact/DailyFact";
 import FavoritesTab from "./components/favorites-tab/FavoritesTab";
 import FrequencySelection from "./components/frequency-selection/FrequencySelection";
 import useFetchData from "./hooks/useFetchData";
+import useLocalStorage from "./hooks/useLocalStorage";
+import { CatFact } from "./types/apiTypes";
 
 const Container = styled(Box)<BoxProps>(() => ({
   display: "flex",
@@ -18,8 +20,7 @@ const TabsWrapper = styled(Box)<BoxProps>(() => ({
 }));
 
 const App = () => {
-  const [currentFact, setCurrentFact] = useState(null);
-  const [favoriteFacts, setFavoriteFacts] = useState([]);
+  const [currentFact, setCurrentFact] = useState<CatFact | null>(null);
   const [activeTab, setActiveTab] = useState(0);
 
   const { data, isLoading, error, fetchNewFact } = useFetchData({
@@ -27,8 +28,10 @@ const App = () => {
     queryParams: { amount: 1, animal_type: "cat" },
   });
 
+  const { favorites, saveFavorite } = useLocalStorage();
+
   const handleAddToFavorites = () => {
-    setFavoriteFacts([...favoriteFacts, currentFact]);
+    saveFavorite({ id: currentFact._id, text: currentFact.text });
     setCurrentFact(null);
     fetchNewFact();
   };
@@ -79,7 +82,7 @@ const App = () => {
           <FrequencySelection />
         </>
       )}
-      {activeTab === 1 && <FavoritesTab facts={favoriteFacts} />}
+      {activeTab === 1 && <FavoritesTab facts={favorites} />}
     </Container>
   );
 };
