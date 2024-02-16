@@ -45,17 +45,21 @@ const App = () => {
     setActiveTab(newTab);
   };
 
+  const sendCatFact = () => {
+    if (currentFact) {
+      window.electronAPI.ipcRenderer.sendMessage("cat-fact", currentFact?.text);
+    }
+  };
+
   useEffect(() => {
     if (data) {
       setCurrentFact(data);
     }
   }, [data]);
 
-  window.electronAPI.fetchCatFact(() => {
-    if (currentFact) {
-      window.electronAPI.catFact(currentFact?.text);
-    }
-  });
+  useEffect(() => {
+    window.electronAPI.ipcRenderer.on("fetch-cat-fact", sendCatFact);
+  }, [currentFact]);
 
   if (error) return <div>Error: {error.message}</div>;
 

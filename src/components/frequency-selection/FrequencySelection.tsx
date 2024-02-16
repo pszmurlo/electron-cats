@@ -37,7 +37,10 @@ const FrequencySelection = () => {
 
   const handleSetNotificationFrequency = () => {
     if (selectedFrequency) {
-      window.electronAPI.notificationFrequency(selectedFrequency);
+      window.electronAPI.ipcRenderer.sendMessage(
+        "set-notification-frequency",
+        selectedFrequency
+      );
       setSnackbarOpen(true);
     }
   };

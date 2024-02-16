@@ -1,7 +1,7 @@
-interface Window {
-  electronAPI: {
-    fetchCatFact: (callback: (data: string) => void) => void;
-    catFact: (value: string) => void;
-    notificationFrequency: (value: string) => void;
-  };
+import { ElectronAPI } from "../preload";
+
+declare global {
+  interface Window {
+    electronAPI: ElectronAPI;
+  }
 }
