@@ -11,7 +11,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CatFact } from "../../types/apiTypes";
 
 interface DailyFactProps {
@@ -35,13 +35,13 @@ const DailyFact = ({
 }: DailyFactProps) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
-  const handleMouseOver = () => {
+  const handleMouseOver = useCallback(() => {
     setIsCollapsed(true);
-  };
+  }, []);
 
-  const handleMouseOut = () => {
+  const handleMouseOut = useCallback(() => {
     setIsCollapsed(false);
-  };
+  }, []);
 
   return (
     <Container>

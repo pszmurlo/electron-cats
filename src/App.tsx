@@ -1,5 +1,5 @@
 import { Box, BoxProps, Tab, Tabs, styled } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import DailyFact from "./components/daily-fact/DailyFact";
 import FavoritesTab from "./components/favorites-tab/FavoritesTab";
 import FrequencySelection from "./components/frequency-selection/FrequencySelection";
@@ -30,26 +30,43 @@ const App = () => {
 
   const { favorites, saveFavorite } = useLocalStorage();
 
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = useCallback(() => {
     saveFavorite({ id: currentFact._id, text: currentFact.text });
     setCurrentFact(null);
     fetchNewFact();
-  };
+  }, [saveFavorite, currentFact, fetchNewFact]);
 
-  const handleDeleteFact = () => {
+  const handleDeleteFact = useCallback(() => {
     setCurrentFact(null);
     fetchNewFact();
-  };
+  }, [fetchNewFact]);
 
-  const handleChangeTab = (_event: React.SyntheticEvent, newTab: number) => {
-    setActiveTab(newTab);
-  };
+  const handleChangeTab = useCallback(
+    (_event: React.SyntheticEvent, newTab: number) => {
+      setActiveTab(newTab);
+    },
+    []
+  );
 
-  const sendCatFact = () => {
-    if (currentFact) {
-      window.electronAPI.ipcRenderer.sendMessage("cat-fact", currentFact?.text);
-    }
-  };
+  const dailyFactTab = useMemo(
+    () => (
+      <>
+        <DailyFact
+          fact={currentFact}
+          onAddToFavorites={handleAddToFavorites}
+          onDelete={handleDeleteFact}
+          isLoading={isLoading}
+        />
+        <FrequencySelection />
+      </>
+    ),
+    [currentFact, handleAddToFavorites, handleDeleteFact, isLoading]
+  );
+
+  const favoritesTab = useMemo(
+    () => <FavoritesTab facts={favorites} />,
+    [favorites]
+  );
 
   useEffect(() => {
     if (data) {
@@ -58,6 +75,15 @@ const App = () => {
   }, [data]);
 
   useEffect(() => {
+    const sendCatFact = () => {
+      if (currentFact) {
+        window.electronAPI.ipcRenderer.sendMessage(
+          "cat-fact",
+          currentFact?.text
+        );
+      }
+    };
+
     window.electronAPI.ipcRenderer.on("fetch-cat-fact", sendCatFact);
   }, [currentFact]);
 
@@ -75,18 +101,8 @@ const App = () => {
           <Tab label="Favorites" />
         </Tabs>
       </TabsWrapper>
-      {activeTab === 0 && (
-        <>
-          <DailyFact
-            fact={currentFact}
-            onAddToFavorites={handleAddToFavorites}
-            onDelete={handleDeleteFact}
-            isLoading={isLoading}
-          />
-          <FrequencySelection />
-        </>
-      )}
-      {activeTab === 1 && <FavoritesTab facts={favorites} />}
+      {activeTab === 0 && dailyFactTab}
+      {activeTab === 1 && favoritesTab}
     </Container>
   );
 };
